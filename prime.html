@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+    <!--<script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>-->
     <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.12.0.min.js"><\/script>')</script>
     <script src="main.js"></script>
     <style>
@@ -24,13 +24,16 @@
             border: 1px solid #dddddd;
             padding: 1rem;
         }
+        .label{
+            color: red;
+        }
     </style>
 </head>
 <body>
 
 <table>
 <tr>
-    <td id="tdbar"><div id="bar"></div></td>
+    <td id="tdbar"><div id="bar"></div><br/><div id="big"></div></td>
     <td id="contain"><h1>Prime Number Tests</h1>
         <div id = "prime"></div>
     </td>
@@ -43,12 +46,11 @@
 
     // Prime Test
     $(function () {
-
-        let numLim = 1000000;
+        let numberLimit = 1001; // depending on system processor capabilities; numberLimit can be set to Gogol
         let primes = [];
 
         let p0 = performance.now();
-        for(let n = 0; n < numLim; n++) {
+        for(let n = 0; n < numberLimit; n++) {
 
             let ti = performance.now();
             let val = isPrime(n);
@@ -64,52 +66,57 @@
         }
         let p1 = performance.now();
         let tMs = (p1- p0) * 10 ** (-3);
+        $("#bar").prepend("<p class='tMs'>Time Used: " + tMs  + " seconds.</p>");
 
-        for(i in primes)
-            $("#bar").prepend("<p class='tMs'>Time Used: " + tMs  + " seconds.</p>")
-                .append(primes[i] + " ");
+        for(let i in primes) {
+            $("#bar").append(primes[i] + " ");
+        }
+
+        //  Tests on Big Prime Numbers
+
+        function bigPrimeTest(bg) {
+
+            let ti = performance.now();
+            let bigPrime = isPrime(bg);
+            let te = performance.now();
+
+            if (bg > Number.MAX_SAFE_INTEGER) {
+                $("#big").append("<span class='label'>POSSIBLE TRUNCATION ERROR!</span>");
+                $("#big").append("Is "
+                    + bg + " a prime number: " + bigPrime)
+                    .append("<p>Took: " + (te - ti) + " milliseconds.</p>");
+            } else  if ( bg < Number.MAX_SAFE_INTEGER){
+                $("#big").append("Is "
+                    + bg + " a prime number: " + bigPrime)
+                    .append("<p>Took: " + (te - ti) + " milliseconds.</p>");
+            }
+
+        }
+
+        bigPrimeTest(3119 * 4261);
+        bigPrimeTest(15 ** 100);
+        bigPrimeTest(2147483647);
+        bigPrimeTest(32416190071);
+        bigPrimeTest(67280421310721);
+        bigPrimeTest(999998727899999);
+        bigPrimeTest(1000000000000037);
+        bigPrimeTest(1158174141556287);
+        bigPrimeTest(9007199254740991);
+        bigPrimeTest(1090109110921093);
+        bigPrimeTest(777777722155555333);
+        bigPrimeTest(1111111111111111111111);
+
+        bigPrimeTest(78692816150593075150849);
+        bigPrimeTest(124829153113731171731393);
+        bigPrimeTest(220988936657440586486151264256610222593863921);
+        bigPrimeTest(13759159371597337951391577135995731751937395195317);
+        bigPrimeTest(2468101214161820222426283032343638404244464850525456586062646668707274767880827);
+        bigPrimeTest(11111111111111111111111111111111111111111111111111111111111111111111111111111111112111111111111);
+
+
     });
 
 
-    /*let t2i = performance.now();
-    let rep = isPrime(3119 * 4261);
-    console.log(rep);
-    let t2e = performance.now();
-    console.log("Took: " + (t2e - t2i) + " milliseconds.");
-     */
-
-    // Gogol Level  Tests
-
-    let ti3 = performance.now();
-    console.log("Is 10^100 a prime number: " + isPrime(15 ** 100));
-    let te3 = performance.now();
-    console.log("Took: " + (te3 - ti3) + " milliseconds.");
-
-    // Big Prime Numbers Test
-    // 1
-    t0 = performance.now();
-    console.log("Is 67,280,421,310,721 a prime number: " + isPrime(67280421310721));
-    t1 = performance.now();
-    console.log("Took: " + (t1 - t0) + " milliseconds.");
-
-    //2
-    t0 = performance.now();
-    console.log("Is 32,416,190,071 a prime number: " + isPrime(32416190071));
-    t1 = performance.now();
-    console.log("Took: " + (t1 - t0) + " milliseconds.");
-
-    //3
-    t0 = performance.now();
-    console.log("Is 2,147,483,647 a prime number: " + isPrime(2147483647));
-    t1 = performance.now();
-    console.log("Took: " + (t1 - t0) + " milliseconds.");
-
-    //4
-    t0 = performance.now();
-    console.log("Is 220,988,936,657,440,586,486,151,264,256,610,222,593,863,921 a prime number: "
-        + isPrime(220988936657440586486151264256610222593863921));
-    t1 = performance.now();
-    console.log("Took: " + (t1 - t0) + " milliseconds.");
 
 </script>
 </body>

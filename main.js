@@ -19,7 +19,7 @@ function isPrime(i) {
     if (i > Number.MAX_SAFE_INTEGER) {
         console.error("\nTest number not a safe integer value in javascript;\n" +
             i + " is greater than 9007199254740991;" +
-            "\nInteger may not be represented correctly in browser!");
+            "\nTruncation Error: Integer may not be represented correctly in browser!");
 
         // return "Number too big for standard PC browser!";
     }
