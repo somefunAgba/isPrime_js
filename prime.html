@@ -8,31 +8,42 @@
     <script src="main.js"></script>
     <style>
         body{
-            font-family: "Arial", sans-serif;
-            font-size: 0.75rem;
+            font-family: monospace;
+            font-size: 1rem;
         }
-        #bar{
-            background-color: lightgray;
+        #tdbar{
+            background-color: #8dc3cf;
+            width: 60%;
         }
         .tMs{
-            color: aquamarine;
-            border-bottom: 1rem;
+            color: #06479b;
+            border-bottom: 0.1rem solid green;
+        }
+        td{
+            vertical-align: top;
+            border: 1px solid #dddddd;
+            padding: 1rem;
         }
     </style>
 </head>
 <body>
-<div>
-<div id="bar"></div>
-<h1>Prime Number Tests</h1>
-<div id = "prime"></div>
-</div>
+
+<table>
+<tr>
+    <td id="tdbar"><div id="bar"></div></td>
+    <td id="contain"><h1>Prime Number Tests</h1>
+        <div id = "prime"></div>
+    </td>
+</tr>
+</table>
+
 <script>
 
     // let iterations = 1000000;
 
     // Small Prime Test
     $(function () {
-        let numLim = 10;
+        let numLim = 1000;
         let primes = [];
         let p0 = performance.now();
         for(let n = 0; n < numLim; n++) {
@@ -51,15 +62,15 @@
                 primes.push(n);
         }
         let p1 = performance.now();
-        let tMs = p1- p0;
+        let tMs = (p1- p0) * 10 ** (-3);
 
         for(i in primes)
             $("#bar").append(primes[i] + " ");
-        $("#bar").prepend("<p class='tMs'>Time Used: " + tMs  + " *  milliseconds.</p>")
+        $("#bar").prepend("<p class='tMs'>Time Used: " + tMs  + " seconds.</p>")
     });
 
 
-    let t2i = performance.now();
+    /*let t2i = performance.now();
     let rep = isPrime(3119 * 4261);
     console.log(rep);
     let t2e = performance.now();
@@ -91,7 +102,7 @@
     console.log("Is 2,147,483,647 a prime number: " + isPrime(2147483647));
     t1 = performance.now();
     console.log("Took: " + (t1 - t0) + " milliseconds.");
-
+*/
     //4
     t0 = performance.now();
     console.log("Is 220,988,936,657,440,586,486,151,264,256,610,222,593,863,921 a prime number: "
