@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+    <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.12.0.min.js"><\/script>')</script>
+    <script src="js/main.js"></script>
+    <style>
+        body{
+            font-family: "Arial", sans-serif;
+            font-size: 0.75rem;
+        }
+        #bar{
+            background-color: lightgray;
+        }
+        .tMs{
+            color: aquamarine;
+            border-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+<div>
+<div id="bar"></div>
+<h1>Prime Number Tests</h1>
+<div id = "prime"></div>
+</div>
+<script>
+
+    // let iterations = 1000000;
+
+    // Small Prime Test
+    $(function () {
+        let numLim = 10;
+        let primes = [];
+        let p0 = performance.now();
+        for(let n = 0; n < numLim; n++) {
+
+            let ti = performance.now();
+            let val = isPrime(n);
+            let te = performance.now();
+
+            $("#prime").append("<p>Is <strong>" + n + "</strong> " +
+                "a prime number: <strong>" + val + "</strong></p>");
+
+            $("#prime").append("<p>Took: <strong>" + (te - ti) +
+                " </strong> milliseconds." + "</p><hr/>");
+
+            if (val === true)
+                primes.push(n);
+        }
+        let p1 = performance.now();
+        let tMs = p1- p0;
+
+        for(i in primes)
+            $("#bar").append(primes[i] + " ");
+        $("#bar").prepend("<p class='tMs'>Time Used: " + tMs  + " *  milliseconds.</p>")
+    });
+
+
+    let t2i = performance.now();
+    let rep = isPrime(3119 * 4261);
+    console.log(rep);
+    let t2e = performance.now();
+    console.log("Took: " + (t2e - t2i) + " milliseconds.");
+
+    // Gogol Level  Tests
+
+    let ti3 = performance.now();
+    console.log("Is 10^100 a prime number: " + isPrime(15 ** 100));
+    let te3 = performance.now();
+    console.log("Took: " + (te3 - ti3) + " milliseconds.");
+
+
+    // Big Prime Numbers Test
+    // 1
+    t0 = performance.now();
+    console.log("Is 67,280,421,310,721 a prime number: " + isPrime(67280421310721));
+    t1 = performance.now();
+    console.log("Took: " + (t1 - t0) + " milliseconds.");
+
+    //2
+    t0 = performance.now();
+    console.log("Is 32,416,190,071 a prime number: " + isPrime(32416190071));
+    t1 = performance.now();
+    console.log("Took: " + (t1 - t0) + " milliseconds.");
+
+    //3
+    t0 = performance.now();
+    console.log("Is 2,147,483,647 a prime number: " + isPrime(2147483647));
+    t1 = performance.now();
+    console.log("Took: " + (t1 - t0) + " milliseconds.");
+
+    //4
+    t0 = performance.now();
+    console.log("Is 220,988,936,657,440,586,486,151,264,256,610,222,593,863,921 a prime number: "
+        + isPrime(20988936657440586486151264256610222593863921));
+    t1 = performance.now();
+    console.log("Took: " + (t1 - t0) + " milliseconds.");
+
+</script>
+</body>
+</html>
