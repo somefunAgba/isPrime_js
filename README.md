@@ -2,6 +2,8 @@
 (2^53-1) or range [0 - 9007199254740991] in javascript is a prime number. 
 For smaller numbers, the check performance is extremely fast.**
 
+See Result: https://somefunagba.github.io/isPrime_js/
+
     // 0. If test-number, i is a number greater than the maximum safe integer value in javascript
     // We skip any further test, and return a null.
     if (i > Number.MAX_SAFE_INTEGER) {
