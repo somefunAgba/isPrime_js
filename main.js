@@ -4,6 +4,8 @@ This algorithm efficiently checks if a very large number within the maximum safe
 (2^53-1) or range [0 - 9007199254740991] in javascript is a prime number.
 For smaller numbers, the check performance is extremely fast.
 */
+
+
 function isPrime(i) {
     /**
      * Author: Oluwasegun Somefun
