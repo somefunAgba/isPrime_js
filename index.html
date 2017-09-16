@@ -3,7 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <link rel="stylesheet" href="js/vendor/font-awesome.css">
+    <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="font-awesome-animation/font-awesome-animation.min.css">
     <!--<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>-->
     <script>window.jQuery || document.write('<script src="js/vendor/jquery-3.2.1.js"><\/script>')</script>
     <script src="main.js"></script>
@@ -11,114 +12,142 @@
         body{
             font-family: monospace;
             font-size: 1rem;
+            background-color: #fafafa;
+            color: #333;
+            margin: 0 auto;
+            max-width: 40rem;
+            padding: 5rem;
+            vertical-align: middle;
+            text-align: center;
         }
-        #tdbar{
-            background-color: #8dcf99;
-            width: 60%;
+        .correct{
+            color: limegreen;
         }
-        .tMs{
-            color: #06479b;
-            border-bottom: 0.1rem solid green;
+        .wrong {
+            color: crimson;
         }
-        td{
-            vertical-align: top;
-            border: 1px solid #dddddd;
-            padding: 1rem;
+        .infade {
+            opacity: 0.5;
         }
-        .label{
-            color: red;
+        #in_prime {
+            width: 15rem;
+            height: 2.5rem;
+            font-size: 1.05rem;
+            font-family: monospace;
+            font-weight: bold;
+            color: blue;
+        }
+        .icon{
+            vertical-align: middle;
+        }
+        #post{
+            border-bottom: 0.1rem solid #ddd;
+            margin-bottom: 1rem;
+            padding: 0.5rem;
+        }
+        .button {
+            padding: 0.25rem 0.875rem;
+            font-weight: bold;
+            color: cadetblue;
+            background-color: transparent;
+            border: solid 0.05rem;
+        }
+        #pass_prime,
+        #fail_prime{
+            display: none;
+        }
+        #link{
+            margin: 1.5rem;
+        }
+        #link a{
+            border: 0.1rem solid #ddd;
+            margin: 1rem;
+            padding: 0.5rem;
+            cursor: pointer;
+            color: #333;
+            text-decoration: none;
+            font-size: x-large;
+            font-weight: bold;
+        }
+        #link a:hover {
+            color: darkblue;
+            font-weight: normal;
         }
     </style>
 </head>
 <body>
-<i class="fa fa-car" aria-hidden="true"></i>
-<table>
-<tr>
-    <td id="tdbar"><div id="bar"></div><br/><div id="big"></div></td>
-    <td id="contain"><h1>Prime Number Tests</h1>
-        <div id = "prime"></div>
-    </td>
-</tr>
-</table>
 
+<!--
+<i class="fa fa-check-circle-o fa-4x fa-fw correct" aria-hidden="true"></i>
+<span class="sr-only">Correct!</span>
+
+<i class="fa fa-times-circle-o fa-3x fa-fw wrong" aria-hidden="true"></i>
+<span class="sr-only">Wrong!</span>
+-->
+<div><h2>Primalty Test</h2></div>
+<div id="post">
+    <span id="spin"><i class="fa fa-spinner fa-pulse fa-2x fa-fw icon"></i>
+        <span class="sr-only">Loading!</span></span>
+    <label for="in_prime"></label>
+    <input id="in_prime" type="number">
+    <i class="fa fa-mail-forward fa-2x fa-fw icon button"></i>
+</div>
+
+<span id="pass_prime">
+    <span class="fa-stack fa-2x fa-fw faa-pulse animated correct" aria-hidden="true">
+        <i class="fa fa-circle-o fa-stack-2x"></i>
+        <i class="fa fa-check fa-stack-1x"></i>
+    </span><span class="sr-only">Correct!</span>
+</span>
+<span id="fail_prime">
+    <span class="fa-stack fa-2x fa-fw faa-vertical animated faa-fast wrong" aria-hidden="true">
+      <i class="fa fa-circle-o fa-stack-2x"></i>
+      <i class="fa fa-close fa-stack-1x"></i>
+    </span><span class="sr-only">Wrong!</span>
+</span>
+<div id="link"><a href="prime.html" target="_blank" class="faa-pulse animated">See Performance</a></div>
 <script>
-
-    // let iterations = 1000000;
-
     // Prime Test
     $(function () {
-        let numberLimit = 1001; // depending on system processor capabilities; numberLimit can be set to Gogol
-        let primes = [];
 
-        let p0 = performance.now();
-        for(let n = 0; n < numberLimit; n++) {
+        $("#spin").css('display', 'none');
 
-            let ti = performance.now();
-            let val = isPrime(n);
-            let te = performance.now();
+        $inSpin = $('#spin').clone();
+        $inSpin.css('display', 'none');
 
-            $("#prime").append("<p>Is <strong>" + n + "</strong> " +
-                "a prime number: <strong>" + val + "</strong></p>")
-                .append("<p>Took: <strong>" + (te - ti) +
-                " </strong> milliseconds." + "</p><hr/>");
+        $("#in_prime").mouseenter(function () {
 
-            if (val === true)
-                primes.push(n);
-        }
-        let p1 = performance.now();
-        let tMs = (p1- p0) * 10 ** (-3);
-        $("#bar").prepend("<p class='tMs'>Time Used: " + tMs  + " seconds.</p>");
-
-        for(let i in primes) {
-            $("#bar").append(primes[i] + " ");
-        }
-
-        //  Tests on Big Prime Numbers
-
-        function bigPrimeTest(bg) {
-
-            let ti = performance.now();
-            let bigPrime = isPrime(bg);
-            let te = performance.now();
-
-            if (bg > Number.MAX_SAFE_INTEGER) {
-                $("#big").append("<span class='label'>POSSIBLE TRUNCATION ERROR!</span>");
-                $("#big").append("Is "
-                    + bg + " a prime number: " + bigPrime)
-                    .append("<p>Took: " + (te - ti) + " milliseconds.</p>");
-            } else  if ( bg < Number.MAX_SAFE_INTEGER){
-                $("#big").append("Is "
-                    + bg + " a prime number: " + bigPrime)
-                    .append("<p>Took: " + (te - ti) + " milliseconds.</p>");
+            let i = 0;
+            while ($("#in_prime").val().length > 0 && i <= 0) {
+                    i = i + 1;
+                    let newSpin = $inSpin;
+                    $('#post').prepend(newSpin);
+                    newSpin.show();
             }
+        });
 
-        }
+        $("body").on('click', ".button", function () {
+                let valu = $("#in_prime").val();
+                valu = parseInt(valu);
+                let val = isPrime(valu);
+                console.log(val);
 
-        bigPrimeTest(3119 * 4261);
-        bigPrimeTest(15 ** 100);
-        bigPrimeTest(2147483647);
-        bigPrimeTest(32416190071);
-        bigPrimeTest(67280421310721);
-        bigPrimeTest(999998727899999);
-        bigPrimeTest(1000000000000037);
-        bigPrimeTest(1158174141556287);
-        bigPrimeTest(9007199254740991);
-        bigPrimeTest(1090109110921093);
-        bigPrimeTest(777777722155555333);
-        bigPrimeTest(1111111111111111111111);
-
-        bigPrimeTest(78692816150593075150849);
-        bigPrimeTest(124829153113731171731393);
-        bigPrimeTest(220988936657440586486151264256610222593863921);
-        bigPrimeTest(13759159371597337951391577135995731751937395195317);
-        bigPrimeTest(2468101214161820222426283032343638404244464850525456586062646668707274767880827);
-        bigPrimeTest(11111111111111111111111111111111111111111111111111111111111111111111111111111111112111111111111);
-
+                if (val) {
+                    $("#fail_prime").hide(10);
+                    $("#pass_prime").show(10);
+                } else if (!val) {
+                    $("#pass_prime").hide(10);
+                    $("#fail_prime").show(10);
+                }
+                $('.button').addClass('faa-flash animated faa-fast');
+                setTimeout(function () {
+                    $('.button').removeClass('faa-flash animated faa-fast');
+                }, 500);
+        });
 
     });
 
-
-
 </script>
+
 </body>
 </html>
