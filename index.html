@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width-device-width" initial-scale="1">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="font-awesome-animation/font-awesome-animation.min.css">
@@ -10,7 +11,7 @@
     <script src="main.js"></script>
     <style>
         body{
-            font-family: monospace;
+            font-family: Arial, Helvetica, sans-serif;
             font-size: 1rem;
             background-color: #fafafa;
             color: #333;
@@ -26,31 +27,30 @@
         .wrong {
             color: crimson;
         }
-        .infade {
-            opacity: 0.5;
-        }
         #in_prime {
             width: 15rem;
             height: 2.5rem;
-            font-size: 1.05rem;
-            font-family: monospace;
+            font-size: 1.02rem;
+            font-family: "Courier New", Courier, monospace;
             font-weight: bold;
             color: blue;
         }
         .icon{
             vertical-align: middle;
+            visibility: hidden;
         }
         #post{
             border-bottom: 0.1rem solid #ddd;
             margin-bottom: 1rem;
             padding: 0.5rem;
         }
-        .button {
-            padding: 0.25rem 0.875rem;
-            font-weight: bold;
+        #writer {
+            padding: 0.85rem;
+            font-weight: normal;
             color: cadetblue;
             background-color: transparent;
-            border: solid 0.05rem;
+            border-top: solid 0.05rem;
+            font-size: 12px;
         }
         #pass_prime,
         #fail_prime{
@@ -67,15 +67,20 @@
             color: #333;
             text-decoration: none;
             font-size: x-large;
-            font-weight: bold;
+            font-weight: 100;
+            font-family: Impact, Charcoal, sans-serif;
         }
         #link a:hover {
             color: darkblue;
-            font-weight: normal;
+            font-weight: 400;
+        }
+        #header>h1{
+            font-family: "Arial Black", Gadget, sans-serif;
+            text-transform: uppercase;
         }
     </style>
 </head>
-<body>
+<body onload="typewriter()">
 
 <a href="https://github.com/somefunAgba/isPrime_js" class="github-corner" aria-label="View source on Github">
     <svg width="120" height="120" viewBox="0 0 250 250" style="fill:#70B7FD; color:#fff;
@@ -91,13 +96,13 @@
 <i class="fa fa-times-circle-o fa-3x fa-fw wrong" aria-hidden="true"></i>
 <span class="sr-only">Wrong!</span>
 -->
-<div><h2>Primalty Test</h2></div>
+<div id="header"><h1>Primalty Test</h1><p id="writer"></p></div>
 <div id="post">
     <span id="spin"><i class="fa fa-spinner fa-pulse fa-2x fa-fw icon"></i>
         <span class="sr-only">Loading!</span></span>
     <label for="in_prime"></label>
-    <input id="in_prime" type="number">
-    <i class="fa fa-mail-forward fa-2x fa-fw icon button"></i>
+    <input placeholder="230"  id="in_prime"
+           type="number" oninput="primeTest(this.value)" onchange="primeTest(this.value)">
 </div>
 
 <span id="pass_prime">
@@ -114,45 +119,49 @@
 </span>
 <div id="link"><a href="prime.html" target="_blank" class="faa-pulse animated">See Performance</a></div>
 <script>
+
+    let k = 0;
+    let txt = "Prime Number Test! Please, enter a positive integer inside the box below.";
+    let speed = 85;
+
+    function typewriter() {
+        if(k < txt.length) {
+            document.getElementById("writer").innerHTML += txt.charAt(k);
+            k++;
+        } else {
+            k = 0;
+            document.getElementById("writer").innerHTML = "";
+        }
+        setTimeout(typewriter, speed);
+    }
+
+
     // Prime Test
-    $(function () {
-
-        $("#spin").css('display', 'none');
-
-        $inSpin = $('#spin').clone();
-        $inSpin.css('display', 'none');
-
-        $("#in_prime").mouseenter(function () {
-
-            let i = 0;
-            while ($("#in_prime").val().length > 0 && i <= 0) {
-                    i = i + 1;
-                    let newSpin = $inSpin;
-                    $('#post').prepend(newSpin);
-                    newSpin.show();
-            }
+    function primeTest(i) {
+        $(function () {
+            spinShow();
         });
 
-        $("body").on('click', ".button", function () {
-                let valu = $("#in_prime").val();
-                valu = parseInt(valu);
-                let val = isPrime(valu);
-                console.log(val);
+        let value = parseInt(i);
+        let val = isPrime(value);
+        console.log(val);
 
-                if (val) {
-                    $("#fail_prime").hide(10);
-                    $("#pass_prime").show(10);
-                } else if (!val) {
-                    $("#pass_prime").hide(10);
-                    $("#fail_prime").show(10);
-                }
-                $('.button').addClass('faa-flash animated faa-fast');
-                setTimeout(function () {
-                    $('.button').removeClass('faa-flash animated faa-fast');
-                }, 500);
-        });
+        if (val) {
+            $("#fail_prime").hide(10);
+            $("#pass_prime").show(10);
+        } else if (!val) {
+            $("#pass_prime").hide(10);
+            $("#fail_prime").show(10);
+        }
+        $('.button').addClass('faa-flash animated faa-fast');
+        setTimeout(function () {
+            $('.button').removeClass('faa-flash animated faa-fast');
+        }, 500);
+    }
 
-    });
+    function spinShow () {
+        $(".icon").css('visibility', "visible");
+    }
 
 </script>
 
